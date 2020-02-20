@@ -1,4 +1,4 @@
 package com.bocer1.sandbox;
 
-public class StandbyOnly {
+public class StandbyOnly01 {
 }
