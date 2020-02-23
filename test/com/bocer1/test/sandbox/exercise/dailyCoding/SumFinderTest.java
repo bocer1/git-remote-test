@@ -1,5 +1,7 @@
-package com.bocer1.test.sandbox.interview.stripe;
+package com.bocer1.test.sandbox.exercise.dailyCoding;
 
+import com.bocer1.lib.dataStruc.Pair;
+import com.bocer1.sandbox.exercise.dailyCoding.SumFinder;
 import com.bocer1.sandbox.interview.stripe.MaxFieldCalculator;
 import org.junit.jupiter.api.Test;
 
@@ -8,23 +10,55 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MaxFieldValueTest {
+public class SumFinderTest {
     @Test
-    public void max() {
-        List<Map<String, Double>> input = new ArrayList<Map<String, Double>>() {{
-                add(new LinkedHashMap<String, Double>() {{ put("A", 100d); put("B", 50d); put("C", 80d);               }});
-                add(new LinkedHashMap<String, Double>() {{ put("A", 200d); put("B", 70d);                              }});
-                add(new LinkedHashMap<String, Double>() {{ put("A",  10d);                put("C", 99d);               }});
-                add(new LinkedHashMap<String, Double>() {{ put("A", 100d);                               put("D", 25d);}});
+    public void HappyPathTest() {
+        final int target = 17;
+        final List<Integer> addendList = new ArrayList<Integer>(){{
+            add(10);
+            add(15);
+            add(3);
+            add(5);
+            add(7);
+            add(12);
+            add(4);
         }};
 
-        MaxFieldCalculator m = new MaxFieldCalculator();
-        Map<String, Double> result = m.max(input);
-        assertEquals(200d, result.get("A").doubleValue());
-        assertEquals(70d,  result.get("B").doubleValue());
-        assertEquals(99d,  result.get("C").doubleValue());
-        assertEquals(25d,  result.get("D").doubleValue());
+        final SumFinder sf = new SumFinder();
+        final List<Pair<Integer, Integer>> result = sf.find(target, addendList);
+        assertEquals(2, result.size(), "There should be 2 pairs on the data set");
+        for(Pair<Integer, Integer> p : result) {
+            assertEquals(17, p.getX() + p.getY());
+        }
+    }
+
+    @Test
+    public void noPairTest() {
+        final int target = 17;
+        final List<Integer> addendList = new ArrayList<Integer>(){{
+            add(80);
+            add(75);
+            add(3);
+            add(5);
+            add(7);
+            add(32);
+            add(4);
+        }};
+
+        final SumFinder sf = new SumFinder();
+        final List<Pair<Integer, Integer>> result = sf.find(target, addendList);
+        assertEquals(0, result.size(), "There should be 0 pairs on the data set");
+    }
+
+    @Test
+    public void emptyInputTest() {
+        final int target = 17;
+        final List<Integer> addendList = new ArrayList<Integer>();
+
+        final SumFinder sf = new SumFinder();
+        final List<Pair<Integer, Integer>> result = sf.find(target, addendList);
+        assertEquals(0, result.size(), "There should be 0 pairs on the data set");
     }
 }
